@@ -1,8 +1,5 @@
-1 - João Lucas - Freitas - 1 34 984448484, 3 55 9658
+1 - João Lucas - Freitas - 1 34 984448484, 5 55 984448484
 2 - Pedro Paulo - Freitas - 1 34 999135544, 2 32 999318295
 3 - Maria Silva - Oliveira - 1 34 567891234
 4 - Daniel Abraao - Freitas - 1 34 32353045
 5 - José da Silva - Santos - 1 31 987654321, 2 31 981234567, 3 31 989876543
-6 - 0 - 87 - 1 51 -2314756
-7 - Joao - Lucas - 1 36 1
-8 - hyfy - santos - 1 34 12

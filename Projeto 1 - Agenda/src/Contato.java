@@ -6,7 +6,7 @@ public class Contato {
     private final long id;
     private String nome;
     private String sobrenome;
-    private ArrayList<Telefone> telefones = new ArrayList<>();
+    private final ArrayList<Telefone> telefones = new ArrayList<>();
     private long ultimoId = 0;
 
     public Contato(long id, String nome) {

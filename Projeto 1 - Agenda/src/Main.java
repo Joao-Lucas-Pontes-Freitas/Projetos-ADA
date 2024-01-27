@@ -19,7 +19,8 @@ public class Main {
 
         lerArquivo(contatos, pilhaTelefones);
         agenda();
-        contatos(contatos, pilhaTelefones);
+        contatos(contatos);
+        menu(contatos, pilhaTelefones);
     }
     private static void agenda(){
         System.out.println("\n\u001B[38;2;255;165;0m#\u001B[0m#################");
@@ -65,7 +66,7 @@ public class Main {
             contatos.add(novoContato);
         }
     }
-    private static void contatos(ArrayList<Contato> contatos, HashSet<String> pilhaTelefones){
+    private static void contatos(ArrayList<Contato> contatos){
         System.out.println("\n\u001B[38;2;255;165;0m>\u001B[0m>>> Contatos <<<<");
         System.out.println("Id | Nome");
 
@@ -76,12 +77,9 @@ public class Main {
             System.out.println(" | " + contato.getNome());
         }
         System.out.println();
-        menu(contatos, pilhaTelefones);
     }
     private static void menu(ArrayList<Contato> contatos, HashSet<String> pilhaTelefones) {
-        Scanner sc = new Scanner(System.in);
-
-        try {
+        try (Scanner sc = new Scanner(System.in)) {
             while (true) {
                 System.out.println("\u001B[38;2;255;165;0m>\u001B[0m>>> Menu <<<<");
                 System.out.println("1 - Adicionar Contato");
@@ -92,42 +90,48 @@ public class Main {
 
                 System.out.print("\u001B[38;2;255;165;0m>\u001B[0m>>> Escolha uma opção: ");
 
-                if (sc.hasNextInt()) {
-                    int opcao = sc.nextInt();
+                String input = sc.nextLine().trim();
 
-                    switch (opcao) {
-                        case 1:
-                            adicionarContato(contatos, pilhaTelefones);
-                            break;
-                        case 2:
-                            removerContato(contatos, pilhaTelefones);
-                            break;
-                        case 3:
-                            editarContato(contatos, pilhaTelefones);
-                            break;
-                        case 4:
-                            contatos(contatos, pilhaTelefones);
-                            break;
-                        case 5:
-                            System.out.println("\u001B[38;2;255;165;0m>\u001B[0m>>> \u001B[38;2;255;255;0mSaindo...\u001B[0m");
-                            System.exit(0);
-                        default:
-                            System.out.println("\u001B[38;2;255;51;51mOpção inválida\u001B[0m\n");
-                            sc.nextLine(); // Limpa o buffer do teclado
-                            break;
+                if (input.isEmpty()) {
+                    System.out.println("\u001B[38;2;255;51;51mEntrada inválida. Digite um número.\u001B[0m\n");
+                    continue;
+                }
+
+                try {
+                    int opcao = Integer.parseInt(input);
+
+                    // Verifica se a opção está dentro do intervalo desejado
+                    if (opcao >= 1 && opcao <= 5) {
+                        switch (opcao) {
+                            case 1:
+                                adicionarContato(contatos, pilhaTelefones);
+                                break;
+                            case 2:
+                                removerContato(contatos, pilhaTelefones);
+                                break;
+                            case 3:
+                                editarContato(contatos, pilhaTelefones);
+                                break;
+                            case 4:
+                                contatos(contatos);
+                                break;
+                            case 5:
+                                System.out.println("\u001B[38;2;255;165;0m>\u001B[0m>>> \u001B[38;2;255;255;0mSaindo...\u001B[0m");
+                                System.exit(0);
+                                break;
+                        }
+                    } else {
+                        System.out.println("\u001B[38;2;255;51;51mOpção inválida.\u001B[0m\n");
                     }
-                } else {
-                    System.out.println("\u001B[38;2;255;51;51mOpção inválida\u001B[0m\n");
-                    sc.nextLine(); // Limpa o buffer do teclado
+                } catch (NumberFormatException e) {
+                    System.out.println("\u001B[38;2;255;51;51mEntrada inválida. Digite um número.\u001B[0m\n");
                 }
             }
         } catch (InputMismatchException e) {
             System.out.println("\u001B[38;2;255;51;51mEntrada inválida\u001B[0m\n");
-        } finally {
-            sc.close(); // Fechar o Scanner no bloco finally
         }
+        // Fechar o Scanner no bloco finally
     }
-
 
     private static void adicionarContato(ArrayList<Contato> contatos, HashSet<String> pilhaTelefones){
 
@@ -185,7 +189,8 @@ public class Main {
         menu(contatos, pilhaTelefones);
     }
     private static void removerContato(ArrayList<Contato> contatos, HashSet<String> pilhaTelefones) {
-        System.out.println();
+
+        contatos(contatos);
         System.out.print("\u001B[38;2;255;165;0m>\u001B[0m>>> Escolha o id do contato: ");
 
         Scanner sc = new Scanner(System.in);
@@ -218,7 +223,7 @@ public class Main {
     }
     private static void editarContato(ArrayList<Contato> contatos, HashSet<String> pilhaTelefones){
 
-        System.out.println();
+        contatos(contatos);
         System.out.print("\u001B[38;2;255;165;0m>\u001B[0m>>> Escolha o id do contato: ");
 
         Scanner sc = new Scanner(System.in);
@@ -283,16 +288,22 @@ public class Main {
                     case 4:
                         System.out.print("\nTelefones: ");
                         System.out.println(contato.mostrarTelefones());
-                        System.out.print("Digite o id do telefone a ser removido: ");
                         long id;
                         while (true) {
+                            System.out.print("Digite o id do telefone a ser removido: ");
+
+                            String input = sc.nextLine().trim();
+
+                            if (input.isEmpty()) {
+                                System.out.println("\u001B[38;2;255;51;51mEntrada inválida.\u001B[0m\n");
+                                continue;
+                            }
+
                             try {
-                                id = sc.nextLong();
-                                sc.nextLine();  // Limpa o buffer
+                                id = Long.parseLong(input);
                                 break;
-                            } catch (InputMismatchException e) {
-                                System.out.println("\u001B[38;2;255;51;51mEntrada inválida\u001B[0m\n");
-                                sc.nextLine(); // Limpar o buffer do scanner
+                            } catch (NumberFormatException e) {
+                                System.out.println("\u001B[38;2;255;51;51mEntrada inválida. Digite um número válido.\u001B[0m\n");
                             }
                         }
 
