@@ -1,7 +1,7 @@
 public class Telefone {
-    private Long idTelefone;
-    private String ddd;
-    private Long numero;
+    private final Long idTelefone;
+    private final String ddd;
+    private final Long numero;
 
     public Telefone(Long idTelefone, String ddd, long numero) {
         this.idTelefone = idTelefone;
