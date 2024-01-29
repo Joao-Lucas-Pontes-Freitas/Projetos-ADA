@@ -31,6 +31,8 @@ public class Contato {
     }
 
     public void setNome() {
+        // Nome pode ser símbolos e emojis, só não pode vazio
+
         Scanner sc = new Scanner(System.in);
         String nome;
         do {
@@ -51,6 +53,8 @@ public class Contato {
     }
 
     public void setSobrenome() {
+        // Sobrenome pode ser símbolos e emojis, só não pode vazio
+
         Scanner sc = new Scanner(System.in);
         String sobrenome;
         do {
@@ -117,13 +121,5 @@ public class Contato {
             pilhaTelefones.remove(telefone.getDdd() + telefone.getNumero());
             telefones.remove(telefone);
         }
-    }
-
-    public long getUltimoId() {
-        return ultimoId;
-    }
-
-    public void aumenta() {
-        ultimoId += 1;
     }
 }
