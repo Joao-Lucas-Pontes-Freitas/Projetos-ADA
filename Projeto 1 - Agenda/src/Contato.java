@@ -26,10 +26,6 @@ public class Contato {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public void setNome() {
         // Nome pode ser símbolos e emojis, só não pode vazio
 
