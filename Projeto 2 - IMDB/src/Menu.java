@@ -155,9 +155,4 @@ public class Menu {
 
         mostrarMenu();
     }
-
-    public void teste(){
-        System.out.println("teste");
-    }
-
 }
