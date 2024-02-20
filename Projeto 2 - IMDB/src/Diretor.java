@@ -1,12 +1,20 @@
-public class Diretor extends ProfissionalCinema{
+import java.util.Objects;
 
-    public boolean validarDiretor(String nome, String dataNascimento) {
-        return validaNome(nome) && validaDataNascimento(dataNascimento);
-    }
+public class Diretor extends ProfissionalCinema{
     public void mostrarDiretor(){
         mostrarProfissional();
     }
     public boolean setDiretor(String nome, String dataNascimento) {
         return setProfissional(nome, dataNascimento);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        Diretor other = (Diretor) obj;
+        return Objects.equals(nome, other.nome) && Objects.equals(dataNascimento, other.dataNascimento);
     }
 }

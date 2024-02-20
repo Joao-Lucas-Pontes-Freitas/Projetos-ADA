@@ -9,19 +9,33 @@ public class Menu {
         this.atoresCadastrados = atoresCadastrados;
         this.diretoresCadastrados = diretoresCadastrados;
     }
-    public void mostrarMenu(){
+    public void mostrarMenu() {
+        System.out.println();
         System.out.println("1 - Cadastrar Filme");
         System.out.println("2 - Cadastrar Ator");
         System.out.println("3 - Cadastrar Diretor");
         System.out.println("4 - Consultar Filme");
         System.out.println("5 - Sair");
-        System.out.println("\nEscolha uma opção: ");
 
-        int opcao;
-        Scanner scanner = new Scanner(System.in);
-        opcao = scanner.nextInt();
+        boolean opcaoInvalida = true;
 
-        switch (opcao){
+        String escolha;
+
+        Scanner scanner = new Scanner(System.in);;
+        do {
+            System.out.print("\nEscolha uma opção: ");
+            escolha = scanner.nextLine();
+
+            if (escolha.equals("1") || escolha.equals("2") || escolha.equals("3") || escolha.equals("4") || escolha.equals("5"))
+                opcaoInvalida = false;
+
+        } while (opcaoInvalida);
+
+        System.out.println();
+
+        int opcao = Integer.parseInt(escolha);
+
+        switch (opcao) {
             case 1:
                 cadastrarFilme();
                 break;
@@ -48,72 +62,71 @@ public class Menu {
 
         Filme filme = new Filme();
 
-        String titulo;
-        String ano;
-        String nota;
-        String genero;
+        if (atoresCadastrados.isEmpty() || diretoresCadastrados.isEmpty()){
+            System.out.println("Não há atores ou diretores cadastrados!");
+            mostrarMenu();
+        }
 
-        Ator ator;
-        Diretor diretor;
-
-        ArrayList<Ator> atores = new ArrayList<>();
-        ArrayList<Diretor> diretores = new ArrayList<>();
-
-        boolean adicionarAtor = true;
-        boolean adicionarDiretor = true;
-
-        int indiceAtor;
-        int indiceDiretor;
-
+        String nome, genero, ano, nota;
         do{
-            int i = 1;
-            for (Ator atorCadastrado : atoresCadastrados){
-                System.out.println(i + atorCadastrado.getNome());
-                i++;
-            }
+            System.out.print("Digite o título não vazio: ");
+            nome = new Scanner(System.in).nextLine();
 
-            do{
-                System.out.print("Digite o número do ator já cadastrado: ");
-                indiceAtor = new Scanner(System.in).nextInt();
+            System.out.print("Digite o gênero compsoto somente por letras: ");
+            genero  = new Scanner(System.in).nextLine();
 
-                if (indiceAtor > 0 && indiceAtor <= atoresCadastrados.size()){
-                    ator = atoresCadastrados.get(indiceAtor);
-                    atores.add(ator);
-                }
-                else
-                    break;
+            System.out.print("Digite o ano no formato (2000): ");
+            ano = new Scanner(System.in).nextLine();
 
-                System.out.println("Digite 1 para adicionar mais algum ator e 0 para parar: ");
+            System.out.print("Digite a nota no formato (9,5): ");
+            nota = new Scanner(System.in).nextLine();
 
+            System.out.println();
 
-            }while(adicionarAtor);
+        }while(!filme.setFilme(nome, genero, ano, nota));
 
-        }while (!filme.validarFilme() && !filmesCadastrados.contains(filme));
+        adicionarAtor(filme);
+        adicionarDiretor(filme);
+
+        filmesCadastrados.add(filme);
+
+        for(Ator ator : filme.getAtores())
+            ator.adicionaFilme(filme);
+
+        for(Diretor diretor : filme.getDiretores())
+            diretor.adicionaFilme(filme);
 
         mostrarMenu();
     }
 
-    public void cadastrarAtor(){
-
+    public void cadastrarAtor() {
         Ator ator = new Ator();
         String nome;
         String dataNascimento;
 
-        do{
-            System.out.print("Digite um nome válido: ");
+        boolean adicionadoComSucesso;
+
+        do {
+            System.out.print("Digite um nome não vazio: ");
             nome = new Scanner(System.in).nextLine();
 
-            System.out.print("\nDigite a data de nascimento (dia/mes/ano): ");
+            System.out.print("Digite a data de nascimento (dia/mes/ano): ");
             dataNascimento = new Scanner(System.in).nextLine();
 
-            System.out.println();
 
-        }while (!ator.setAtor(nome, dataNascimento) && !atoresCadastrados.contains(ator));
+            adicionadoComSucesso = ator.setAtor(nome, dataNascimento) && !atoresCadastrados.contains(ator);
+
+            if (!adicionadoComSucesso) {
+                System.out.println("\nErro: Nome inválido, data de nascimento inválida ou ator já cadastrado.");
+            }
+
+        } while (!adicionadoComSucesso);
 
         atoresCadastrados.add(ator);
 
         mostrarMenu();
     }
+
 
     public void cadastrarDiretor(){
 
@@ -122,15 +135,15 @@ public class Menu {
         String dataNascimento;
 
         do{
-            System.out.print("Digite um nome válido: ");
+            System.out.print("Digite um nome não vazio: ");
             nome = new Scanner(System.in).nextLine();
 
-            System.out.print("\nDigite a data de nascimento (dia/mes/ano): ");
+            System.out.print("Digite a data de nascimento (dia/mes/ano): ");
             dataNascimento = new Scanner(System.in).nextLine();
 
             System.out.println();
 
-        }while (!diretor.setDiretor(nome, dataNascimento) && !diretoresCadastrados.contains(diretor));
+        }while (!diretor.setDiretor(nome, dataNascimento) || diretoresCadastrados.contains(diretor));
 
         diretoresCadastrados.add(diretor);
 
@@ -140,10 +153,12 @@ public class Menu {
     public void cosultarFilme(){
 
         String nome = new Scanner(System.in).nextLine();
+        nome = nome.toLowerCase();
+
         boolean encontrado = false;
 
         for (Filme filme : filmesCadastrados){
-            if (filme.getNome().equals(nome)){
+            if (filme.getNome().toLowerCase().equals(nome)){
                 filme.mostrarFilme();
                 encontrado = true;
                 break;
@@ -155,4 +170,70 @@ public class Menu {
 
         mostrarMenu();
     }
+
+    public void adicionarAtor(Filme filme){
+
+        boolean adicionar = true;
+        int id;
+        String escolha;
+
+        do{
+            int i = 1;
+            for(Ator ator : atoresCadastrados){
+                System.out.print(i);
+                System.out.println(ator.getNome());
+                i++;
+            }
+
+            System.out.print("Escolha o número do ator para adicionar: ");
+            id = new Scanner(System.in).nextInt();
+            System.out.println();
+
+            filme.adicionarAtor(atoresCadastrados.get(id - 1));
+
+            do{
+                System.out.println("Deseja adicionar mais atores? (0 para não e 1 para sim): ");
+                escolha = new Scanner(System.in).nextLine();
+                System.out.println();
+
+            }while (!escolha.equals("0") && !escolha.equals("1"));
+
+            if(escolha.equals("0"))
+                adicionar = false;
+
+        }while (adicionar);
+    }
+
+    public void adicionarDiretor(Filme filme){
+
+        boolean adicionar = true;
+        int id;
+        String escolha;
+
+        do{ int i = 1;
+            for(Diretor diretor : diretoresCadastrados){
+                System.out.print(i);
+                System.out.println(diretor.getNome());
+                i++;
+            }
+
+            System.out.print("Escolha o número do diretor para adicionar: ");
+            id = new Scanner(System.in).nextInt();
+            System.out.println();
+
+            filme.adicionarDiretor(diretoresCadastrados.get(id - 1));
+
+            do{
+                System.out.println("Deseja adicionar mais diretores? (0 para não e 1 para sim): ");
+                escolha = new Scanner(System.in).nextLine();
+                System.out.println();
+
+            }while (!escolha.equals("0") && !escolha.equals("1"));
+
+            if(escolha.equals("0"))
+                adicionar = false;
+
+        }while (adicionar);
+    }
+
 }
