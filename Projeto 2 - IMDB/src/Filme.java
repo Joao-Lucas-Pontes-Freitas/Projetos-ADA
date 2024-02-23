@@ -103,4 +103,10 @@ public class Filme{
         return true;
     }
 
+    public boolean atoresIguais(Stack<Ator> atoresCadastrados) {
+        return atoresCadastrados.size() == atores.size();
+    }
+    public boolean diretoresIguais(Stack<Diretor> diretoresCadastrados) {
+        return diretoresCadastrados.size() == diretores.size();
+    }
 }

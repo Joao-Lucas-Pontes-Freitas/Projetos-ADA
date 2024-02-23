@@ -12,3 +12,4 @@ Filme$Star Wars, Episódio I: A Ameaça Fantasma%Ficção%1999%10.0
 Ator$Ewan McGregor%31/03/1971
 Ator$Natalie Portman%09/06/1981
 Diretor$George Lucas%14/05/1944
+

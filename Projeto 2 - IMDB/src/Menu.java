@@ -22,27 +22,10 @@ public class Menu {
         System.out.printf("      3 - \u001B[34mCadastrar Diretor\u001B[0m%n");
         System.out.printf("      4 - \u001B[34mConsultar Filme\u001B[0m%n");
         System.out.printf("      5 - \u001B[34mMostrar Itens\u001B[0m%n");
-        System.out.printf("      6 - \u001B[34mSair\u001B[0m%n");
+        System.out.printf("      6 - \u001B[34mEditar Filme\u001B[0m%n");
+        System.out.printf("      7 - \u001B[34mSair\u001B[0m%n");
 
-        boolean opcaoInvalida = true;
-        String escolha;
-        Scanner scanner = new Scanner(System.in);
-
-        do {
-            System.out.print("\n      Escolha uma opção: ");
-            escolha = scanner.nextLine();
-
-            if (escolha.matches("[1-6]")) {
-                opcaoInvalida = false;
-            } else {
-                System.out.println("      \u001B[31mOpção inválida\u001B[0m");
-            }
-
-        } while (opcaoInvalida);
-
-        System.out.println();
-
-        int opcao = Integer.parseInt(escolha);
+        int opcao = verficaOpcaoMenu("7");
 
         switch (opcao) {
             case 1:
@@ -61,12 +44,14 @@ public class Menu {
                 mostrarItens();
                 break;
             case 6:
+                editarFilme();
+                break;
+            case 7:
                 System.out.printf("\n\u001B[38;2;%d;%d;%dm      Saindo do Sistema...\u001B[0m%n", 255, 215, 0);
                 System.exit(0);
                 break;
         }
 
-        scanner.close();
     }
 
     private void carregarItens() {
@@ -128,7 +113,7 @@ public class Menu {
         Arquivo.escreverItens(linhas);
     }
 
-    public void cadastrarFilme(){
+    private void cadastrarFilme(){
 
         Filme filme = new Filme();
 
@@ -137,23 +122,7 @@ public class Menu {
             mostrarMenu();
         }
 
-        String nome, genero, ano, nota;
-        do{
-            System.out.printf("      Digite o \u001B[38;2;%d;%d;%dmnome:\u001B[0m ", 64,224,208);
-            nome = new Scanner(System.in).nextLine();
-
-            System.out.printf("      Digite o \u001B[38;2;%d;%d;%dmgênero:\u001B[0m (composto somente por letras): ", 64,224,208);
-            genero  = new Scanner(System.in).nextLine();
-
-            System.out.printf("      Digite o \u001B[38;2;%d;%d;%dmano:\u001B[0m (no formato 2000): ", 64,224,208);
-            ano = new Scanner(System.in).nextLine();
-
-            System.out.printf("      Digite a \u001B[38;2;%d;%d;%dmnota:\u001B[0m (no formato 9.5): ", 64,224,208);
-            nota = new Scanner(System.in).nextLine();
-
-            System.out.println();
-
-        }while(!filme.setFilme(nome, genero, ano, nota));
+        editarDados(filme);
 
         adicionarAtor(filme);
         adicionarDiretor(filme);
@@ -164,7 +133,7 @@ public class Menu {
         mostrarMenu();
     }
 
-    public void cadastrarAtor() {
+    private void cadastrarAtor() {
         Ator ator = new Ator();
         String nome;
         String dataNascimento;
@@ -192,7 +161,7 @@ public class Menu {
         mostrarMenu();
     }
 
-    public void cadastrarDiretor(){
+    private void cadastrarDiretor(){
 
         Diretor diretor = new Diretor();
         String nome;
@@ -221,7 +190,7 @@ public class Menu {
         mostrarMenu();
     }
 
-    public void consultarFilme(){
+    private void consultarFilme(){
 
         if(filmesCadastrados.isEmpty()){
             System.out.println("\u001B[31m      Nenhum filme cadastrado ainda\u001B[0m");
@@ -254,7 +223,12 @@ public class Menu {
         mostrarMenu();
     }
 
-    public void adicionarAtor(Filme filme){
+    private void adicionarAtor(Filme filme){
+
+        if(filme.atoresIguais(atoresCadastrados)){
+            System.out.println("      \u001B[31mAtores já cadastrados\u001B[0m");
+            return;
+        }
 
         boolean adicionar = true;
         boolean escolhido = false;
@@ -278,7 +252,7 @@ public class Menu {
                     System.out.println();
 
 
-                    if(id > i || id < 0)
+                    if(id > i || id < 1)
                         System.out.println("      \u001B[31mOpção inválida\u001B[0m");
 
                     else{
@@ -288,7 +262,7 @@ public class Menu {
                             System.out.println("      \u001B[31mAtor cadastrado\u001B[0m\n");
                 }
 
-                }catch(IllegalArgumentException e) {
+                }catch(Exception e) {
                     System.out.println("      \u001B[31mOpção inválida\u001B[0m\n");
                 }
             }while (!escolhido);
@@ -304,9 +278,15 @@ public class Menu {
                 adicionar = false;
 
         }while (adicionar);
+        salvarItens();
     }
 
-    public void adicionarDiretor(Filme filme){
+    private void adicionarDiretor(Filme filme){
+
+        if(filme.diretoresIguais(diretoresCadastrados)){
+            System.out.println("      \u001B[31mDiretores já cadastrados\u001B[0m");
+            return;
+        }
 
         boolean adicionar = true;
         boolean escolhido = false;
@@ -337,10 +317,10 @@ public class Menu {
                         if(filme.adicionarDiretor(diretoresCadastrados.get(id - 1)))
                             escolhido = true;
                         else
-                            System.out.println("      \u001B[31mDiretor cadastrado\u001B[0m\n");
+                            System.out.println("      \u001B[31mDiretor cadastrado\u001B[0m");
                     }
 
-                }catch(IllegalArgumentException e) {
+                }catch(Exception e) {
                     System.out.println("      \u001B[31mOpção inválida\u001B[0m\n");
                 }
             }while (!escolhido);
@@ -356,9 +336,10 @@ public class Menu {
                 adicionar = false;
 
         }while (adicionar);
+        salvarItens();
     }
 
-    public void mostrarItens(){
+    private void mostrarItens(){
 
         System.out.printf("\u001B[38;2;%d;%d;%dm      Filmes: \u001B[0m%n", 255,215,0);
         for(Filme filme : filmesCadastrados){
@@ -378,5 +359,197 @@ public class Menu {
             diretor.mostrarDiretor();
         }
         mostrarMenu();
+    }
+
+    private void editarFilme() {
+
+        Filme filme = null;
+        int id;
+        boolean escolhido = false;
+
+        int i = 1;
+        System.out.printf("      \u001B[34mFilmes Disponíveis:\u001B[0m%n");
+        for(Filme aux : filmesCadastrados){
+            System.out.print("      " + i + " - " + aux.getNome() + "\n");
+            i++;
+        }
+
+        do{
+            System.out.printf("\n      Escolha o \u001B[38;2;%d;%d;%dmnúmero\u001B[0m do filme para editar: ", 64,224,208);
+
+            try{
+                id = new Scanner(System.in).nextInt();
+                System.out.println();
+
+
+                if(id < 1 || id > i)
+                    System.out.println("      \u001B[31mOpção inválida\u001B[0m");
+
+                else{
+                    filme = filmesCadastrados.get(id-1);
+                    escolhido = true;
+                }
+
+            }catch(Exception e) {
+                System.out.println("      \u001B[31mOpção inválida \u001B[0m");
+            }
+        }while (!escolhido);
+
+
+        System.out.println();
+        System.out.printf("      \u001B[38;2;%d;%d;%dmEditar:\u001B[0m%n", 64, 224, 208);
+        System.out.printf("      1 - \u001B[34mDados do Filme\u001B[0m%n");
+        System.out.printf("      2 - \u001B[34mAdicionar Ator\u001B[0m%n");
+        System.out.printf("      3 - \u001B[34mAdicionar Diretor\u001B[0m%n");
+        System.out.printf("      4 - \u001B[34mRemover Ator\u001B[0m%n");
+        System.out.printf("      5 - \u001B[34mRemover Diretor\u001B[0m%n");
+        System.out.printf("      6 - \u001B[34mVoltar\u001B[0m%n");
+
+        int opcao = verficaOpcaoMenu("6");
+
+        switch (opcao) {
+            case 1:
+                editarDados(filme);
+                mostrarMenu();
+                break;
+            case 2:
+                adicionarAtor(filme);
+                mostrarMenu();
+                break;
+            case 3:
+                adicionarDiretor(filme);
+                mostrarMenu();
+                break;
+            case 4:
+                removerAtor(filme);
+                mostrarMenu();
+                break;
+            case 5:
+                removerDiretor(filme);
+                mostrarMenu();
+                break;
+            case 6:
+                mostrarMenu();
+                break;
+        }
+    }
+
+    private void removerAtor(Filme filme) {
+
+        if(filme.getAtores().size() == 1){
+            System.out.println("      \u001B[31mNão pode remover todos os atores\u001B[0m");
+            mostrarMenu();
+        }
+
+
+        int id;
+
+        int i = 1;
+        System.out.printf("      \u001B[34mAtores Cadastrados:\u001B[0m%n");
+        for(Ator ator : filme.getAtores()){
+            System.out.print("      " + i + " - " + ator.getNome() + "\n");
+            i++;
+        }
+
+        id = verificaOpcaoRemover(i);
+
+        if (id != -1)
+            filme.getAtores().remove(id - 1);
+
+        salvarItens();
+    }
+
+    private void removerDiretor(Filme filme) {
+
+        if(filme.getDiretores().size() == 1){
+            System.out.println("      \u001B[31mNão pode remover todos os diretores\u001B[0m");
+            mostrarMenu();
+        }
+
+        int id;
+
+        int i = 1;
+        System.out.printf("      \u001B[34mDiretores Cadastrados:\u001B[0m%n");
+        for(Diretor diretor : filme.getDiretores()){
+            System.out.print("      " + i + " - " + diretor.getNome() + "\n");
+            i++;
+        }
+
+        id = verificaOpcaoRemover(i);
+
+        if (id != -1)
+            filme.getDiretores().remove(id-1);
+
+        salvarItens();
+    }
+
+    private void editarDados(Filme filme) {
+        String nome, genero, ano, nota;
+        do{
+            System.out.printf("      Digite o \u001B[38;2;%d;%d;%dmnome:\u001B[0m ", 64,224,208);
+            nome = new Scanner(System.in).nextLine();
+
+            System.out.printf("      Digite o \u001B[38;2;%d;%d;%dmgênero:\u001B[0m (composto somente por letras): ", 64,224,208);
+            genero  = new Scanner(System.in).nextLine();
+
+            System.out.printf("      Digite o \u001B[38;2;%d;%d;%dmano:\u001B[0m (no formato 2000): ", 64,224,208);
+            ano = new Scanner(System.in).nextLine();
+
+            System.out.printf("      Digite a \u001B[38;2;%d;%d;%dmnota:\u001B[0m (no formato 9.5): ", 64,224,208);
+            nota = new Scanner(System.in).nextLine();
+
+            System.out.println();
+
+        }while(!filme.setFilme(nome, genero, ano, nota));
+        salvarItens();
+    }
+
+    private int verficaOpcaoMenu(String limite){
+        boolean opcaoInvalida = true;
+        String escolha;
+        Scanner scanner = new Scanner(System.in);
+
+        do {
+            System.out.print("\n      Escolha uma opção: ");
+            escolha = scanner.nextLine();
+
+            if (escolha.matches("[1-6]") || escolha.equals(limite)) {
+                opcaoInvalida = false;
+            } else {
+                System.out.println("      \u001B[31mOpção inválida\u001B[0m");
+            }
+
+        } while (opcaoInvalida);
+
+        System.out.println();
+
+        return Integer.parseInt(escolha);
+    }
+
+    private int verificaOpcaoRemover(int i){
+
+        boolean escolhido = false;
+        int id = -1;
+
+        do{
+            System.out.printf("\n      Escolha o \u001B[38;2;%d;%d;%dmnúmero\u001B[0m para remover: ", 64,224,208);
+            try{
+                id = new Scanner(System.in).nextInt();
+                System.out.println();
+
+
+                if(id > i || id < 1)
+                    System.out.println("      \u001B[31mOpção inválida\u001B[0m");
+
+                else
+                    escolhido = true;
+
+            }catch(Exception e) {
+                System.out.println("      \u001B[31mOpção inválida\u001B[0m\n");
+            }
+
+        }while (!escolhido);
+
+        return id;
     }
 }
