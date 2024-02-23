@@ -12,7 +12,7 @@ public class Arquivo {
                 linhas.add(linha);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Problema ao ler arquivo");
         }
         return linhas;
     }
@@ -24,7 +24,7 @@ public class Arquivo {
                 bw.newLine();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Problema ao escrever no arquivo");
         }
     }
 }

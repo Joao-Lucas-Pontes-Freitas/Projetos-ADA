@@ -20,6 +20,14 @@ public class Filme{
         return false;
     }
 
+    public List<Ator> getAtores() {
+        return atores;
+    }
+
+    public List<Diretor> getDiretores() {
+        return diretores;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -29,19 +37,23 @@ public class Filme{
     }
 
     public void dadosFilme(){
-        System.out.print("----> Título: " + nome);
-        System.out.print("\n--> Gênero: " + genero);
-        System.out.print("\n--> Ano: " + ano);
-        System.out.print("\n--> Nota: " + nota);
+        System.out.println();
+        System.out.print("      ---> Título: " + nome);
+        System.out.print("\n      --> Gênero: " + genero);
+        System.out.print("\n      --> Ano: " + ano);
+        System.out.print("\n      --> Nota: " + nota);
 
-        System.out.println("\n-> Atores: ");
+        System.out.println("\n\n      -> Atores: ");
 
         for (Ator ator : atores){
-            System.out.print(" - ");
+            System.out.print("        - ");
             ator.mostrarAtor();
         }
+
+        System.out.println("\n\n      -> Diretores: ");
+
         for (Diretor diretor : diretores){
-            System.out.print(" - ");
+            System.out.print("        - ");
             diretor.mostrarDiretor();
         }
     }
@@ -84,7 +96,7 @@ public class Filme{
         return true;
     }
 
-    public boolean adicionaDiretor(Diretor diretor) {
+    public boolean adicionarDiretor(Diretor diretor) {
         if(diretores.contains(diretor))
             return false;
         diretores.add(diretor);

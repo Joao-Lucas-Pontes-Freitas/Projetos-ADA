@@ -1,0 +1,14 @@
+Filme$Star Wars, Episódio III: A Vingança dos Sith%Ficção%2005%10.0
+Ator$Ewan McGregor%31/03/1971
+Ator$Natalie Portman%09/06/1981
+Ator$Hayden Christensen%19/04/1981
+Diretor$George Lucas%14/05/1944
+Filme$Star Wars, Episódio II: Ataque dos Clones%Ficção%2002%10.0
+Ator$Ewan McGregor%31/03/1971
+Ator$Natalie Portman%09/06/1981
+Ator$Hayden Christensen%19/04/1981
+Diretor$George Lucas%14/05/1944
+Filme$Star Wars, Episódio I: A Ameaça Fantasma%Ficção%1999%10.0
+Ator$Ewan McGregor%31/03/1971
+Ator$Natalie Portman%09/06/1981
+Diretor$George Lucas%14/05/1944
