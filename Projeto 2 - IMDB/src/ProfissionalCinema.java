@@ -1,11 +1,11 @@
-import java.util.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.regex.Pattern;
 
 public abstract class ProfissionalCinema{
     protected String nome;
     protected String dataNascimento;
-    private List<Filme> filmes;
-
 
     public boolean setProfissional(String nome, String dataNascimento){
 
@@ -17,29 +17,41 @@ public abstract class ProfissionalCinema{
 
         return true;
     }
+
     protected boolean validaDataNascimento(String dataNascimento){
-        return dataNascimento != null && !dataNascimento.isEmpty() && Pattern.matches("\\d{2}/\\d{2}/\\d{4}", dataNascimento);
+
+        // Converte a string de data para LocalDate
+        LocalDate dataNasc;
+
+        try {
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            dataNasc = LocalDate.parse(dataNascimento, formatter);
+
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+
+        // Verifica se a data de nascimento é no futuro
+        LocalDate hoje = LocalDate.now();
+
+        return !dataNasc.isAfter(hoje);
+    }
+
+
+    public String getDataNascimento() {
+        return dataNascimento;
     }
 
     protected boolean validaNome(String nome){
-        return nome != null && !nome.isEmpty() && Pattern.matches("[a-zA-Z\\s]+", nome);
-    }
-    void mostrarProfissional(){
-        System.out.println("Nome: " + nome + " - Data de Nascimento: " + dataNascimento);
-        mostrarFilmes();
-    }
-    void mostrarFilmes(){
-        System.out.println("Filmes: ");
-        for (Filme filme : filmes){
-            System.out.print("- ");
-            System.out.println(filme.getNome());
-        }
-    }
-    public String getNome() {
-        return nome;
+        return nome != null && !nome.isEmpty() && Pattern.matches("[\\p{L}\\s]+", nome);
     }
 
-    public void adicionaFilme(Filme filme) {
-        filmes.add(filme);
+    void mostrarProfissional(){
+        System.out.println("Nome: " + nome + " - Data de Nascimento: " + dataNascimento);
+    }
+
+    public String getNome() {
+        return nome;
     }
 }

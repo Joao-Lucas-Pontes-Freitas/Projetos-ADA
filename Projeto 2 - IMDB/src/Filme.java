@@ -6,8 +6,8 @@ public class Filme{
     private String genero;
     private String ano;
     private String nota;
-    private List<Ator> atores;
-    private List<Diretor> diretores;
+    private final List<Ator> atores = new ArrayList<>();
+    private final List<Diretor> diretores = new ArrayList<>();
 
     public boolean setFilme(String nome, String genero, String ano, String nota) {
         if (validarFilme(nome, genero, ano, nota)) {
@@ -24,8 +24,11 @@ public class Filme{
         return nome;
     }
 
-
     public void mostrarFilme(){
+        System.out.println("Nome: " + nome + " - Gênero: " + genero + " - Ano: " + ano);
+    }
+
+    public void dadosFilme(){
         System.out.print("----> Título: " + nome);
         System.out.print("\n--> Gênero: " + genero);
         System.out.print("\n--> Ano: " + ano);
@@ -59,22 +62,33 @@ public class Filme{
     }
 
     private boolean validaGenero(String genero) {
-        return genero != null && !genero.isEmpty() && Pattern.matches("[a-zA-Z]+", genero);
+        return genero != null && !genero.isEmpty() && Pattern.matches("[\\p{L}\\s]+", genero);
     }
 
-    public void adicionarAtor(Ator ator) {
+    public String getGenero() {
+        return genero;
+    }
+
+    public String getAno() {
+        return ano;
+    }
+
+    public String getNota() {
+        return nota;
+    }
+
+    public boolean adicionarAtor(Ator ator) {
+        if(atores.contains(ator))
+            return false;
         atores.add(ator);
+        return true;
     }
 
-    public void adicionarDiretor(Diretor diretor) {
+    public boolean adicionaDiretor(Diretor diretor) {
+        if(diretores.contains(diretor))
+            return false;
         diretores.add(diretor);
+        return true;
     }
 
-    public List<Ator> getAtores() {
-        return atores;
-    }
-
-    public List<Diretor> getDiretores() {
-        return diretores;
-    }
 }
