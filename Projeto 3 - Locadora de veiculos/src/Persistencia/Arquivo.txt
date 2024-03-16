@@ -1,0 +1,9 @@
+Clientes
+- CPF: 1234
+- CNPJ: 2345
+- CPF: 789
+Veiculos
+- Médio: ACD45JP
+- Pequeno: ACD987D
+- SUV: 10HCKLP
+- Médio: JK97DF
