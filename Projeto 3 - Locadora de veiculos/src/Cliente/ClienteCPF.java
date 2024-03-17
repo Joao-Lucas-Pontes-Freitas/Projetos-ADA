@@ -4,19 +4,20 @@ import Persistencia.*;
 import Servicos.*;
 import Veiculo.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.util.*;
 
 public class ClienteCPF implements Cliente {
     static protected HashSet<String> CPFs = Arquivo.getCPFs();
-    private String CPF;
+    private final String CPF;
     private String nome;
-    private ArrayList<Aluguel> alugueis;
-    private ArrayList<Devolucao> devolucoes;
+    private final ArrayList<Aluguel> alugueis = new ArrayList<>();
+    private final ArrayList<Devolucao> devolucoes = new ArrayList<>();
 
-    public static HashSet<String> getCPFs() {
-        return CPFs;
+    public ClienteCPF(String cpf, String nome) {
+        this.CPF = cpf;
+        this.nome = nome;
+        CPFs.add(CPF);
     }
 
     public String getNome() {
@@ -27,10 +28,22 @@ public class ClienteCPF implements Cliente {
         if (!CPFs.contains(CPF)) {
             this.CPF = CPF;
             CPFs.add(CPF);
-        } else throw new IllegalArgumentException("CPF já existente: " + CPF);
+        } else throw new IllegalArgumentException("      CPF já existente: " + CPF);
     }
 
     public ClienteCPF() {
+        System.out.print("      Digite novo CPF: ");
+        Scanner sc = new Scanner(System.in);
+        String cpf = sc.nextLine();
+
+        if (!CPFs.contains(cpf)) {
+            this.CPF = cpf;
+            CPFs.add(CPF);
+        } else {
+            throw new IllegalArgumentException("      CPF já existente: " + cpf);
+        }
+
+        alterarDados();
     }
 
     public String getCPF() {
@@ -41,23 +54,38 @@ public class ClienteCPF implements Cliente {
     public void alterarDados() {
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Digite novo nome: ");
+        System.out.print("      Digite novo nome: ");
         nome = sc.nextLine();
     }
 
     public String mostrarDados() {
-        return "CPF: " + CPF + "Nome: " + nome;
+        return "CPF: " + CPF + " - Nome: " + nome;
+    }
+
+    public void mostrarAluguiesEDevolucoes() {
+        System.out.println("      CPF: " + CPF);
+
+        System.out.println("      - Alugueis: ");
+        for (Aluguel aluguel : alugueis) {
+            System.out.println("      " + aluguel.mostrarDados());
+        }
+        System.out.println("      - Devolucoes: ");
+        for (Devolucao devolucao : devolucoes) {
+            System.out.println("      " + devolucao.mostrarDados());
+        }
     }
 
     @Override
-    public void alugarVeiculo(Veiculo veiculo, String local, LocalDate data, LocalDateTime horario) {
+    public void alugarVeiculo(Veiculo veiculo, String local, LocalDate data, LocalTime horario) {
         Aluguel aluguel = new Aluguel(veiculo, local, data, horario);
+        aluguel.alugar();
         alugueis.add(aluguel);
     }
 
     @Override
-    public void devolverVeiculo(Aluguel aluguel, Double valor, String local, LocalDate data, LocalDateTime horario) {
+    public void devolverVeiculo(Aluguel aluguel, Double valor, String local, LocalDate data, LocalTime horario) {
         alugueis.remove(aluguel);
+        aluguel.devolver();
         Devolucao devolucao = new Devolucao(valor, local, data, horario);
         devolucoes.add(devolucao);
     }

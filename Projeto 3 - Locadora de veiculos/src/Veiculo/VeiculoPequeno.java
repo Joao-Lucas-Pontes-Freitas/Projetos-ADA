@@ -5,6 +5,10 @@ public class VeiculoPequeno extends Veiculo {
         super(placa);
     }
 
+    public VeiculoPequeno(String placa, String cor) {
+        super(placa, cor);
+    }
+
     public VeiculoPequeno() {
         super();
     }
@@ -16,6 +20,7 @@ public class VeiculoPequeno extends Veiculo {
 
     @Override
     public String mostrarDados() {
-        return "Pequeno: " + placa;
+        return "Tipo: Pequeno - Placa: " + placa + " - Cor: " + cor;
     }
+
 }

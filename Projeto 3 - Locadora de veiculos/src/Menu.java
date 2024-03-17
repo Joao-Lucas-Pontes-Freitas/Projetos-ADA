@@ -17,6 +17,7 @@ public class Menu {
     }
 
     public void mostrarMenu() {
+
         System.out.println();
         System.out.printf("      \u001B[38;2;%d;%d;%dmMenu:\u001B[0m%n", 64, 224, 208);
         System.out.printf("      1 - \u001B[34mCadastrar Veículo\u001B[0m%n");
@@ -53,38 +54,52 @@ public class Menu {
             case 1:
                 CadastroVeiculo cadastroV = new CadastroVeiculo();
                 cadastroV.cadastro(veiculos);
+                Arquivo.escreveArquivo();
+                mostrarMenu();
                 break;
             case 2:
                 AlterarVeiculo alterarV = new AlterarVeiculo();
                 alterarV.alterar(veiculos);
+                Arquivo.escreveArquivo();
+                mostrarMenu();
                 break;
             case 3:
                 BuscarVeiculo buscar = new BuscarVeiculo();
                 buscar.buscar(veiculos);
+                Arquivo.escreveArquivo();
+                mostrarMenu();
                 break;
             case 4:
                 CadastroCliente cadastroC = new CadastroCliente();
                 cadastroC.cadastro(clientes);
+                Arquivo.escreveArquivo();
+                mostrarMenu();
                 break;
             case 5:
                 AlterarCliente alterarC = new AlterarCliente();
                 alterarC.alterar(clientes);
+                Arquivo.escreveArquivo();
+                mostrarMenu();
                 break;
             case 6:
                 AlugarVeiculo alugar = new AlugarVeiculo();
                 alugar.alugar(clientes, veiculos);
+                Arquivo.escreveArquivo();
+                mostrarMenu();
                 break;
 
             case 7:
                 DevolverVeiculo devolver = new DevolverVeiculo();
                 devolver.devolver(clientes);
+                Arquivo.escreveArquivo();
+                mostrarMenu();
                 break;
 
             case 8:
                 System.out.printf("\n\u001B[38;2;%d;%d;%dm      Saindo do Sistema...\u001B[0m%n", 255, 215, 0);
                 System.exit(0);
                 break;
-        }
 
+        }
     }
 }

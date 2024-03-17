@@ -11,9 +11,11 @@ public interface Cliente {
 
     String mostrarDados();
 
-    void alugarVeiculo(Veiculo veiculo, String local, LocalDate data, LocalDateTime horario);
+    void alugarVeiculo(Veiculo veiculo, String local, LocalDate data, LocalTime horario);
 
-    void devolverVeiculo(Aluguel aluguel, Double valor, String local, LocalDate data, LocalDateTime horario);
+    void devolverVeiculo(Aluguel aluguel, Double valor, String local, LocalDate data, LocalTime horario);
 
     ArrayList<Aluguel> getAlugueis();
+
+    void mostrarAluguiesEDevolucoes();
 }

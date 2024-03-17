@@ -1,16 +1,17 @@
 package Servicos;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import Veiculo.Veiculo;
+
+import java.time.*;
 
 public class Devolucao extends Servico {
     private final double valor;
 
-    public Devolucao(double valor, String local, LocalDate data, LocalDateTime horario) {
-        super(local, data, horario);
+    public Devolucao(double valor, String local, LocalDate data, LocalTime horario, Veiculo veiculo) {
+        super(local, data, horario, veiculo);
         this.valor = valor;
     }
-    public double getValor() {
-        return valor;
+    public String mostrarDados() {
+        return "Valor: " + valor + " - " + super.mostrarDados();
     }
 }

@@ -5,13 +5,17 @@ public class VeiculoMedio extends Veiculo {
         super(placa);
     }
 
+    public VeiculoMedio(String placa, String cor) {
+        super(placa, cor);
+    }
+
     public VeiculoMedio() {
         super();
     }
 
     @Override
     public String mostrarDados() {
-        return "Médio: " + placa;
+        return "Tipo: Médio - Placa: " + placa + " - Cor: " + cor;
     }
 
     @Override

@@ -1,31 +1,36 @@
 package Servicos;
 
+import Veiculo.*;
+
 import java.time.*;
 
 public abstract class Servico {
     protected String local;
     protected LocalDate data;
-    protected LocalDateTime horario;
+    protected LocalTime horario;
 
-    public Servico(String local, LocalDate data, LocalDateTime horario){
+    protected final Veiculo veiculo;
+
+    public Servico(String local, LocalDate data, LocalTime horario, Veiculo veiculo){
         this.local = local;
         this.data = data;
         this.horario = horario;
+        this.veiculo = veiculo;
     }
 
-    public String getLocal() {
-        return local;
+    public Veiculo getVeiculo() {
+        return veiculo;
     }
 
     public LocalDate getData() {
         return data;
     }
 
-    public LocalDateTime getHorario() {
+    public LocalTime getHorario() {
         return horario;
     }
 
     public String mostrarDados(){
-        return "Local: " + local + " Data: " + data + " Horario: " + horario;
+        return "Veiculo: " + veiculo.mostrarDados() + " - Local: " + local + " - Data: " + data + " - Horario: " + horario;
     }
 }

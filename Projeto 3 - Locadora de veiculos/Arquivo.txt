@@ -1,7 +1,9 @@
-Clientes
+Clientes:
 - CPF: 02134677 - Nome: João
+- CPF: 10383647 - Nome: Ana
 - CNPJ: 13244754 - Empresa: empresa
-Veiculos
+Veiculos:
 - Tipo: Médio - Placa: 12345AD - Cor: verde
-- Tipo: Pequeno - Placa: cvdsvsv - Cor: vermelho
+- Tipo: Pequeno - Placa: cvdsvsv - Cor: zulim
 - Tipo: SUV - Placa: vsveeq - Cor: preto
+- Tipo: Pequeno - Placa: gfdg2w - Cor: azul

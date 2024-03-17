@@ -8,30 +8,44 @@ public class CadastroVeiculo {
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("1 - Pequeno");
-        System.out.println("2 - Medio");
-        System.out.println("3 - SUV");
+        System.out.println("      1 - Pequeno");
+        System.out.println("      2 - Medio");
+        System.out.println("      3 - SUV");
 
         System.out.println();
 
-        System.out.print("Digite o tipo de veiculo: ");
+        System.out.print("      Digite o tipo de veiculo: ");
         int tipo = sc.nextInt();
+        System.out.println();
 
         switch (tipo) {
             case 1:
-                VeiculoPequeno veiculoP = new VeiculoPequeno();
-                veiculoP.alterarDados();
-                veiculos.add(veiculoP);
+                try{
+                    VeiculoPequeno veiculoP = new VeiculoPequeno();
+                    veiculos.add(veiculoP);
+                }
+                catch (Exception e){
+                    System.out.println(e.getMessage());
+                }
+
                 break;
             case 2:
-                VeiculoMedio veiculoM = new VeiculoMedio();
-                veiculoM.alterarDados();
-                veiculos.add(veiculoM);
+                try{
+                    VeiculoMedio veiculoM = new VeiculoMedio();
+                    veiculos.add(veiculoM);
+                }
+                catch (Exception e){
+                    System.out.println(e.getMessage());
+                }
                 break;
             case 3:
-                VeiculoSUV veiculoS = new VeiculoSUV();
-                veiculoS.alterarDados();
-                veiculos.add(veiculoS);
+                try{
+                    VeiculoSUV veiculoS = new VeiculoSUV();
+                    veiculos.add(veiculoS);
+                }
+                catch (Exception e){
+                    System.out.println(e.getMessage());
+                }
                 break;
         }
     }

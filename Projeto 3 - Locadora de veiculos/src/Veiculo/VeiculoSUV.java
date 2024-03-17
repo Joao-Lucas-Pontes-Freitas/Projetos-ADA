@@ -9,6 +9,10 @@ public class VeiculoSUV extends Veiculo {
         super();
     }
 
+    public VeiculoSUV(String placa, String cor) {
+        super(placa, cor);
+    }
+
     @Override
     public double valorDiaria() {
         return 200;
@@ -16,6 +20,6 @@ public class VeiculoSUV extends Veiculo {
 
     @Override
     public String mostrarDados() {
-        return "SUV: " + placa;
+        return "Tipo: SUV - Placa: " + placa + " - Cor: " + cor;
     }
 }

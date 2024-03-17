@@ -5,20 +5,15 @@ import Veiculo.*;
 import java.time.*;
 
 public class Aluguel extends Servico {
-
-    private final Veiculo veiculo;
-
-    public Aluguel(Veiculo veiculo, String local, LocalDate data, LocalDateTime horario) {
-        super(local, data, horario);
-        this.veiculo = veiculo;
+    public Aluguel(Veiculo veiculo, String local, LocalDate data, LocalTime horario) {
+        super(local, data, horario, veiculo);
     }
 
-    public Veiculo getVeiculo() {
-        return veiculo;
+    public void alugar() {
+        if (veiculo != null) veiculo.alugar();
     }
 
-    @Override
-    public String mostrarDados() {
-        return "Veiculo: " + veiculo.getPlaca() + " " + super.mostrarDados();
+    public void devolver() {
+        if (veiculo != null) veiculo.devolver();
     }
 }
