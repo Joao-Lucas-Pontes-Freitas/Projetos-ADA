@@ -6,24 +6,17 @@ import Veiculo.Veiculo;
 import java.time.*;
 import java.util.*;
 
-public class AlugarVeiculo {
+public class AlugarVeiculo implements MetodosAuxiliares{
     public void alugar(ArrayList<Cliente> clientes, ArrayList<Veiculo> veiculos) {
+
+        Scanner scanner = new Scanner(System.in);
 
         if(clientes.isEmpty() || veiculos.isEmpty()){
             System.out.println("      Veiculos ou Clientes não cadastrados");
             return;
         }
 
-
-        for (int i = 0; i < clientes.size(); i++)
-            System.out.println("      " + (i + 1) + " - " + clientes.get(i).mostrarDados());
-
-        System.out.println();
-
-        System.out.print("      Digite o ID do cliente que deseja alugar o veículo: ");
-
-        Scanner scanner = new Scanner(System.in);
-        int clienteId = scanner.nextInt();
+        int clienteId = escolherCliente(clientes);
 
         System.out.println();
 
@@ -43,7 +36,6 @@ public class AlugarVeiculo {
             return;
         }
 
-
         System.out.println();
 
         System.out.print("      Digite o ID do veículo que será alugado: ");
@@ -54,18 +46,11 @@ public class AlugarVeiculo {
         scanner.nextLine();
         System.out.println();
 
-        System.out.print("      Digite o local: ");
-        String local = scanner.nextLine();
+        String local = escolherLocal();
 
-        System.out.println();
+        LocalDate  data = escolherData();
 
-        System.out.print("      Digite a data (dia/mes/ano): ");
-        LocalDate data = LocalDate.parse(scanner.nextLine(), java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-
-        System.out.println();
-
-        System.out.print("      Digite o horario (hora:min): ");
-        LocalTime horario = LocalTime.parse(scanner.nextLine(), java.time.format.DateTimeFormatter.ofPattern("HH:mm"));
+        LocalTime horario = escolherHorario();
 
         System.out.println();
 

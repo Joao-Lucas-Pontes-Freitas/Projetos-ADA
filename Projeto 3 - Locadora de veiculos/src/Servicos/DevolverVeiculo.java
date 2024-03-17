@@ -6,24 +6,18 @@ import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
-public class DevolverVeiculo {
+public class DevolverVeiculo implements MetodosAuxiliares {
     public void devolver(ArrayList<Cliente> clientes) {
 
-        for (int i = 0; i < clientes.size(); i++)
-            System.out.println("      " + (i + 1) + " - " + clientes.get(i).mostrarDados());
-
-        System.out.println();
-
-        System.out.print("      Digite o ID do cliente que deseja devolver o veículo: ");
-
         Scanner scanner = new Scanner(System.in);
-        int clienteId = scanner.nextInt();
+
+        int clienteId = escolherCliente(clientes);
 
         System.out.println();
 
         ArrayList<Aluguel> alugueis = clientes.get(clienteId - 1).getAlugueis();
 
-        if (alugueis.isEmpty()){
+        if (alugueis.isEmpty()) {
             System.out.println("      Nenhum veículo para ser devolvido");
             return;
         }
@@ -44,19 +38,10 @@ public class DevolverVeiculo {
 
         scanner.nextLine();
 
-        System.out.print("      Digite o local: ");
-        String local = scanner.nextLine();
+        String local = escolherLocal();
+        LocalDate data = escolherData();
+        LocalTime horario = escolherHorario();
 
-        System.out.println();
-
-        System.out.print("      Digite a data (dia/mes/ano): ");
-        LocalDate data = LocalDate.parse(scanner.nextLine(), java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-
-        System.out.println();
-
-        System.out.print("      Digite o horario (hora:min): ");
-        LocalTime horario = LocalTime.parse(scanner.nextLine(), java.time.format.DateTimeFormatter.ofPattern("HH:mm"));
-        
         System.out.println();
 
         Cliente cliente = clientes.get(clienteId - 1);
@@ -71,7 +56,7 @@ public class DevolverVeiculo {
 
         long dias;
 
-        if(aluguel.getHorario().isAfter(hora))
+        if (aluguel.getHorario().isAfter(hora))
             dias = ChronoUnit.DAYS.between(aluguel.getData(), data);
 
         else

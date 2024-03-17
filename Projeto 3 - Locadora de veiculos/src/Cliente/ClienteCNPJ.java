@@ -85,7 +85,8 @@ public class ClienteCNPJ implements Cliente {
     public void devolverVeiculo(Aluguel aluguel, Double valor, String local, LocalDate data, LocalTime horario) {
         alugueis.remove(aluguel);
         aluguel.devolver();
-        Devolucao devolucao = new Devolucao(valor, local, data, horario);
+        Veiculo veiculo = aluguel.getVeiculo();
+        Devolucao devolucao = new Devolucao(valor, local, data, horario, veiculo);
         devolucoes.add(devolucao);
     }
 
