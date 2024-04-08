@@ -36,11 +36,24 @@ public class DemoApplication implements CommandLineRunner {
 
         ArrayList<Produto> insercoes = lerCsvNaRaca();
         insert(insercoes);
+        System.out.println();
+
+        System.out.println("Lista de Produtos");
         List<Produto> produtos = selectProdutos();
+
+        System.out.println();
         quantasCategorias(produtos);
+
+        System.out.println();
         proporcaoProdutos(produtos);
+
+        System.out.println();
         mediaProdutos(produtos);
-        produtosBaixos(produtos);
+
+        System.out.println("\nProdutos Baixos:");
+        List<Produto>  produtosBaixos = produtosBaixos(produtos);
+        produtosBaixos.forEach(System.out::println);
+        System.out.println();
     }
 
     private static ArrayList<Produto> lerCsvNaRaca() throws IOException {
@@ -115,7 +128,9 @@ public class DemoApplication implements CommandLineRunner {
     }
 
     private void quantasCategorias(List<Produto> produtos){
-        // quero percorrer produtos susando stream e contar o numero de cateogrias diferntes
+
+        System.out.print("Número de categorias: ");
+
         System.out.println(
                 produtos.stream()
                         .map(Produto::getCategoria)
@@ -124,6 +139,9 @@ public class DemoApplication implements CommandLineRunner {
     }
 
     private void proporcaoProdutos(List<Produto> produtos){
+
+        System.out.println("Tabela de proporção categoria - quantidade");
+
         List<String> categorias =
                 produtos.stream()
                         .map(Produto::getCategoria)
@@ -132,13 +150,16 @@ public class DemoApplication implements CommandLineRunner {
 
 
         categorias.
-                forEach(c -> System.out.println(c + " " +
+                forEach(c -> System.out.println(c + " - " +
                         produtos.stream()
                                 .filter(p -> p.getCategoria().equals(c))
                                 .count()));
     }
 
     private void mediaProdutos(List<Produto> produtos){
+
+        System.out.print("Média do valor dos produtos: ");
+
         System.out.println(
                 produtos.stream()
                         .mapToDouble(Produto::getPreco)
@@ -146,7 +167,10 @@ public class DemoApplication implements CommandLineRunner {
                         .getAsDouble());
     }
 
-    private void produtosBaixos(List<Produto> produtos){
+    private List<Produto> produtosBaixos(List<Produto> produtos){
 
+        return produtos.stream()
+                .filter(p -> p.getQuantidade() < 3)
+                .toList();
     }
 }
